@@ -17,5 +17,49 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, verbose_name=_(
-        'post'), on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(
+        Post,
+        verbose_name=_('post'),
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        get_user_model(),
+        verbose_name=_('user'),
+        on_delete=models.CASCADE,
+        related_name='comments',
+    )
+    created_at = models.DateTimeField(_('created_at'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('updated_at'), auto_now=True)
+
+
+class PostLikes(models.Model):
+    post = models.ForeignKey(
+        Post,
+        verbose_name=_('post'),
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        get_user_model(),
+        verbose_name=_('user'),
+        on_delete=models.CASCADE,
+        related_name='post_likes',
+        null=True, blank=True,
+    )
+
+
+class CommentLikes(models.Model):
+    comment = models.ForeignKey(
+        Comment,
+        verbose_name=_('post'),
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    user = models.ForeignKey(
+        get_user_model(),
+        verbose_name=_('user'),
+        on_delete=models.CASCADE,
+        related_name='post_likes',
+        null=True, blank=True,
+    )
