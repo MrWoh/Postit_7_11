@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'postit_post',
+    'postit_posts',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
