@@ -8,7 +8,8 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Post
-        fields = ('id', 'title', 'content', 'user', 'user_id', 'created_at', 'updated_at', )
+        fields = ('id', 'title', 'content', 'user',
+                  'user_id', 'created_at', 'updated_at', )
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -18,4 +19,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Comment
-        fields = ('id', 'post', 'content', 'user', 'user_id', 'created_at', 'updated_at', )
+        fields = ('id', 'post', 'content', 'user',
+                  'user_id', 'created_at', 'updated_at', )
+
+
+class PostLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PostLike
+        fields = ['id', 'created_at']

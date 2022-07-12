@@ -1,2 +1,1 @@
-# Postit
-REST api
+# postit
