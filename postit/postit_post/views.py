@@ -77,22 +77,21 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class PostLikeCreate(generics.CreateAPIView, mixins.DestroyModelMixin):
     serializer_class = serializers.PostLikeSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
         post = models.Post.objects.get(pk=self.kwargs['pk'])
-        return models.PostLike.filter(post=post, user=user)
+        return models.PostLike.objects.filter(post=post, user=self.request.user)
 
     def perform_create(self, serializer):
         if self.get_queryset().exists():
-            raise ValidationError(_('You liked already'))
+            raise ValidationError(_('You already like this post!'))
         post = models.Post.objects.get(pk=self.kwargs['pk'])
-        serializer.save(post=post, user=self.request.user)
+        return serializer.save(post=post, user=self.request.user)
 
-    def delete(self, request, **kwargs):
-        if self.get_queryset.exists():
-            self.get_queryset.delete()
+    def delete(self, request, *args, **kwargs):
+        if self.get_queryset().exists():
+            self.get_queryset().delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         else:
-            raise ValidationError(_('You havent like this post yet'))
+            raise ValidationError(_("You don't like this post yet!"))
